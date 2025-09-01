@@ -99,6 +99,8 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: AppColors.green,
       body: Stack(
@@ -120,9 +122,11 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
             ),
           ),
           Align(
-            alignment: const Alignment(0, 0.4),
+            alignment: const Alignment(0, 0.5),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
               child: DefaultTextStyle(
                 textWidthBasis: TextWidthBasis.longestLine,
                 style: const TextStyle(
@@ -186,7 +190,7 @@ class TwoCirclesPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final center = Offset(size.width / 2, size.height / 2);
-    final radius = size.width / 2;
+    final radius = size.height / 4;
 
     final cornerRadius = lerpDouble(radius, 0, progress)!;
     final rectWidth = radius * 2;
