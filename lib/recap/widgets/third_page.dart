@@ -17,6 +17,7 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
   late Animation<Offset> _circleOffSetanimation;
   late final Animation<double> _circleScaleAnimation;
   late final Animation<double> _circleClipAnimation;
+  late final Animation<double> _secondTextAnimation;
   final _animationDuration = const Duration(milliseconds: 1200);
 
   @override
@@ -28,7 +29,7 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
     );
     _circleAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 1000),
     );
     _circleOffSetanimation =
         Tween<Offset>(
@@ -48,7 +49,14 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
     _circleClipAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _circleAnimationController,
-        curve: Curves.easeOut,
+        curve: const Interval(0.2, 0.7, curve: Curves.easeOut),
+      ),
+    );
+
+    _secondTextAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _circleAnimationController,
+        curve: const Interval(0.7, 1, curve: Curves.ease),
       ),
     );
 
@@ -95,6 +103,47 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
               ),
             ),
           ),
+          Align(
+            alignment: const Alignment(0, 0.4),
+            child: FadeTransition(
+              opacity: _secondTextAnimation,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: RichText(
+                  textAlign: TextAlign.left,
+                  textWidthBasis: TextWidthBasis.longestLine,
+                  text: TextSpan(
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    children: [
+                      const TextSpan(
+                        text: 'Your items are especially popular during\n',
+                      ),
+                      const WidgetSpan(child: SizedBox(height: 50)),
+                      TextSpan(
+                        text: 'Thanksgiving',
+                        style: TextStyle(
+                          color: AppColors.lightBlue,
+                          fontSize: 36,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const TextSpan(
+                        text: '\n',
+                      ),
+                      const WidgetSpan(child: SizedBox(height: 60)),
+                      const TextSpan(
+                        text: '--when you had the most orders!',
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -134,7 +183,7 @@ class TwoCirclesPainter extends CustomPainter {
 
     final path = Path()..addRRect(rect);
 
-    final curveDepth = lerpDouble(0, size.height * 0.06, progress)! * progress;
+    final curveDepth = lerpDouble(0, size.height * 0.1, progress)! * progress;
 
     canvas.drawPath(path, paint);
 
