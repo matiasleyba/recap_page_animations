@@ -17,7 +17,9 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
   late Animation<Offset> _circleOffSetanimation;
   late final Animation<double> _circleScaleAnimation;
   late final Animation<double> _circleClipAnimation;
-  late final Animation<double> _secondTextAnimation;
+  late final Animation<double> _secondTextFirstAnimation;
+  late final Animation<double> _secondTextSecondAnimation;
+  late final Animation<double> _secondTextThirdAnimation;
   final _animationDuration = const Duration(milliseconds: 1200);
 
   @override
@@ -29,7 +31,7 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
     );
     _circleAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 2000),
     );
     _circleOffSetanimation =
         Tween<Offset>(
@@ -49,14 +51,28 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
     _circleClipAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _circleAnimationController,
-        curve: const Interval(0.2, 0.7, curve: Curves.easeOut),
+        curve: const Interval(0.1, 0.4, curve: Curves.easeOut),
       ),
     );
 
-    _secondTextAnimation = Tween<double>(begin: 0, end: 1).animate(
+    _secondTextFirstAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _circleAnimationController,
-        curve: const Interval(0.7, 1, curve: Curves.ease),
+        curve: const Interval(0.4, 0.6, curve: Curves.ease),
+      ),
+    );
+
+    _secondTextSecondAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _circleAnimationController,
+        curve: const Interval(0.6, 0.8, curve: Curves.ease),
+      ),
+    );
+
+    _secondTextThirdAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _circleAnimationController,
+        curve: const Interval(0.8, 1, curve: Curves.ease),
       ),
     );
 
@@ -105,41 +121,45 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
           ),
           Align(
             alignment: const Alignment(0, 0.4),
-            child: FadeTransition(
-              opacity: _secondTextAnimation,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: RichText(
-                  textAlign: TextAlign.left,
-                  textWidthBasis: TextWidthBasis.longestLine,
-                  text: TextSpan(
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    children: [
-                      const TextSpan(
-                        text: 'Your items are especially popular during\n',
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: DefaultTextStyle(
+                textWidthBasis: TextWidthBasis.longestLine,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FadeTransition(
+                      opacity: _secondTextFirstAnimation,
+                      child: const Text(
+                        'Your items are especially popular during',
                       ),
-                      const WidgetSpan(child: SizedBox(height: 50)),
-                      TextSpan(
-                        text: 'Thanksgiving',
+                    ),
+                    const SizedBox(height: 16),
+                    FadeTransition(
+                      opacity: _secondTextSecondAnimation,
+                      child: Text(
+                        'Thanksgiving',
                         style: TextStyle(
                           color: AppColors.lightBlue,
                           fontSize: 36,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const TextSpan(
-                        text: '\n',
+                    ),
+                    const SizedBox(height: 40),
+                    FadeTransition(
+                      opacity: _secondTextThirdAnimation,
+                      child: const Text(
+                        '--when you had the most orders!',
                       ),
-                      const WidgetSpan(child: SizedBox(height: 60)),
-                      const TextSpan(
-                        text: '--when you had the most orders!',
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
