@@ -106,7 +106,7 @@ class _Text extends StatelessWidget {
       style: TextStyle(color: Colors.black, fontSize: 58),
       children: [
         TextSpan(
-          text: 'Etsy \n',
+          text: 'MyApp \n',
           style: TextStyle(fontWeight: FontWeight.w400),
         ),
         TextSpan(
